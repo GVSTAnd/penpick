@@ -1,13 +1,14 @@
-
-include .env
-
 APP_NAME := penpick
-
+PORT := 5001
 
 create_env_file: 
 	@if [ ! -f .env ]; then cp -n .env.example .env; fi 
 
-build-image: create_env_file
-	docker build --tag ${APP_NAME} . 
+build-dev: create_env_file
+	docker build --target dev -t ${APP_NAME} . 
 
+build: create_env_file
+	docker build --target production -t ${APP_NAME} . 
 
+dev:
+	docker run --rm -v '$(shell pwd):/app' --name ${APP_NAME} -p ${PORT}:5000 ${APP_NAME}
