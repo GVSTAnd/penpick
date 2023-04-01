@@ -1,96 +1,97 @@
-*{
+* {
     padding: 0px;
     margin: 0px;
     box-sizing: border-box;
 }
 
-body{
+body {
     text-align: center;
     background-color: #191919;
-    color: #ECDBBA;
+    color: #ecdbba;
 }
-h1{
+h1 {
     font-size: 3rem;
     margin-bottom: 1.5rem;
 }
-h1+p{
+h1 + p {
     font-size: 1.5rem;
 }
-h2{
+h2 {
     font-size: 2rem;
     text-decoration: underline;
 }
-.wrapper{
-    background-color: #2D4263;
-    height:100vh;
+.wrapper {
+    background-color: #2d4263;
+    height: 100vh;
     width: auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
-div form{
+div form {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
-    width:100%;
+    width: 100%;
     height: 30%;
 }
-input{
+input {
     border-radius: 0.25rem;
     padding: 0.5rem;
-    width:45%;
+    width: 45%;
 }
-button{
-    border-radius:0.25rem ;
+button {
+    border-radius: 0.25rem;
     height: 20%;
-    color: #2D4263;
-    background-color: #ECDBBA;
-box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-padding-left: 2rem; padding-right: 2rem;
-font-weight: bolder;
-font-size: 1rem;
+    color: #2d4263;
+    background-color: #ecdbba;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    padding-left: 2rem;
+    padding-right: 2rem;
+    font-weight: bolder;
+    font-size: 1rem;
 }
-img{
+img {
     width: 3rem;
 }
-.contact{
+.contact {
     margin-top: 3rem;
     width: 50%;
     display: flex;
     justify-content: space-around;
 }
-.hide{
-display: none;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+.hide {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
-.show{
-  display: block;
+.show {
+    display: block;
 }
 
-.fade-out{
-  opacity: 0;
+.fade-out {
+    opacity: 0;
 }
-.error{
-    color:red;
+.error {
+    color: red;
     font-size: 1rem;
 }
 
-label,input{
+label,
+input {
     display: inline-block;
     vertical-align: middle;
 }
 
-.checkbox_div{
+.checkbox_div {
     display: flex;
     text-align: center;
-    justify-content:space-around;
+    justify-content: space-around;
 }
-.checkbox_div div{
+.checkbox_div div {
     display: flex;
-
 }
