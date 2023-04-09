@@ -1,7 +1,7 @@
 import { Request, Response, Router } from 'express';
 
 import express from 'express';
-import { getBandsRecomendations } from '../controllers/band.controller';
+import { getBandsRecomendations } from '../controllers/scrapping.controller';
 const bandRouter: Router = express.Router();
 
 bandRouter.get('/', (request: Request, response: Response) => {

@@ -1,5 +1,5 @@
 import { getBands } from '../services/scrapping';
-import { ScrapingError } from '../services/scrapping/exceptions';
+import { BandNotFoundError } from '../services/scrapping/exceptions';
 import { Band } from '../types/band-types';
 
 function getBandsDistance(origin: Band, final: Band): Band {
@@ -17,7 +17,7 @@ const getBandsRecomendations = async (inputBand: string): Promise<string[]> => {
         return distance_bands.map((band: Band) => band.name);
     } catch (error) {
         console.log(error);
-        throw new ScrapingError(inputBand);
+        throw new BandNotFoundError(inputBand);
     }
 };
 

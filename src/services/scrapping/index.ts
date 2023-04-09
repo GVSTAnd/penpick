@@ -2,11 +2,9 @@ import puppeteer from 'puppeteer';
 import { Browser, ElementHandle, Page } from 'puppeteer';
 import { SEARCH_URL, PAGE_DIMENSION, WAIT_TIME, BROWSER_ARGS } from './constants';
 import { Band } from '../../types/band-types';
+import { EmptyBandDataError } from './exceptions';
 
-type element = ElementHandle | null;
-
-const parseBandData = async (band_map: element): Promise<Band[]> => {
-    if (!band_map) return [];
+const parseBandData = async (band_map: ElementHandle): Promise<Band[]> => {
     return band_map.$$eval('a', anchors =>
         anchors.map(anchor => {
             const band: Band = {
@@ -32,7 +30,10 @@ const getBands = async (band_name: string): Promise<Band[]> => {
         waitUntil: 'load'
     });
     await new Promise(r => setTimeout(r, WAIT_TIME));
+
     const band_map = await page.$('#gnodMap');
+    if (!band_map) throw new EmptyBandDataError(page.url());
+
     const bands = await parseBandData(band_map);
     console.log(bands);
     await browser.close();
