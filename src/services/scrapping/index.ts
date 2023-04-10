@@ -7,10 +7,11 @@ import { EmptyBandDataError } from './exceptions';
 const parseBandData = async (band_map: ElementHandle): Promise<Band[]> => {
     return band_map.$$eval('a', anchors =>
         anchors.map(anchor => {
+            const { top, left, width, height } = anchor.getBoundingClientRect();
             const band: Band = {
                 name: anchor.textContent || '',
                 id: anchor.id,
-                coordenates: [anchor.getBoundingClientRect().x, anchor.getBoundingClientRect().y]
+                coordenates: [left + width / 2, top + height / 2]
             };
             return band;
         })
@@ -35,7 +36,6 @@ const getBands = async (band_name: string): Promise<Band[]> => {
     if (!band_map) throw new EmptyBandDataError(page.url());
 
     const bands = await parseBandData(band_map);
-    console.log(bands);
     await browser.close();
     return bands;
 };

@@ -7,11 +7,16 @@ import {
     ARTIST_URL,
     CREATE_PLAYLIST_URL,
     PLAYLIST_URL,
-    CURRENT_PLAYLISTS_URL
+    regionTopTracks
 } from './constants';
 import { Response } from 'node-fetch';
 import fetch from 'node-fetch';
 import { Playlist, PlaylistMetaData, SearchOptions } from '../../types/spotify-types';
+
+export type Headers = {
+    'Content-Type': string;
+    Authorization: string;
+};
 
 export class SpotifyClient {
     private static instance: SpotifyClient;
@@ -29,11 +34,16 @@ export class SpotifyClient {
         if (new Date() >= this.tokenTime) await this.refreshToken();
     }
 
+    private generateHeaders(): Headers {
+        return { Authorization: `Bearer ${this.accessToken}`, 'Content-Type': 'application/x-www-form-urlencoded' };
+    }
+
     private async refreshToken(): Promise<void> {
         const body = new URLSearchParams();
         const headers = {
             Authorization:
-                'Basic ' + Buffer.from(SPOTIFY_CLIENT_ID + ':' + SPOTIFY_CLIENT_SECRET, 'binary').toString('base64')
+                'Basic ' + Buffer.from(SPOTIFY_CLIENT_ID + ':' + SPOTIFY_CLIENT_SECRET, 'binary').toString('base64'),
+            'Content-Type': 'application/x-www-form-urlencoded'
         };
         body.append('grant_type', 'refresh_token');
         body.append('refresh_token', REFRESH_TOKEN);
@@ -43,7 +53,6 @@ export class SpotifyClient {
             body: body,
             headers: headers
         });
-
         const data: any = await response.json();
         const expireTime = new Date();
         expireTime.setSeconds(data.expires_in);
@@ -54,22 +63,22 @@ export class SpotifyClient {
     private async search(query: string, types: string[], options?: SearchOptions): Promise<any> {
         await this.checkTokenTime();
         const queryParameter = {
-            query: query,
-            types: types.join(','),
+            q: query,
+            type: types.join(','),
             ...options
         };
-        const response: Response = await fetch(SEARCH_URL + new URLSearchParams(queryParameter));
+        const response: Response = await fetch(SEARCH_URL + new URLSearchParams(queryParameter), {
+            headers: this.generateHeaders()
+        });
         return await response.json();
     }
 
     async searchArtists(query: string, options?: SearchOptions): Promise<any> {
-        const response: Response = await this.search(query, ['artist'], options);
-        return await response.json();
+        return await this.search(query, ['artist'], options);
     }
 
     async searchPlaylists(query: string, options?: SearchOptions): Promise<any> {
-        const response: Response = await this.search(query, ['playlist'], options);
-        return await response.json();
+        return await this.search(query, ['playlist'], options);
     }
 
     async getArtistID(artist: string): Promise<string> {
@@ -80,7 +89,9 @@ export class SpotifyClient {
 
     async getTopTracks(artistId: string): Promise<string[]> {
         await this.checkTokenTime();
-        const response: Response = await fetch(ARTIST_URL + `/${artistId}/top-tracks`);
+        const response: Response = await fetch(ARTIST_URL + `/${artistId}/top-tracks?market=${regionTopTracks}`, {
+            headers: this.generateHeaders()
+        });
         const tracksData: any = await response.json();
         return tracksData.tracks.map((track: any) => track.uri);
     }
@@ -90,7 +101,7 @@ export class SpotifyClient {
         const response: Response = await fetch(CREATE_PLAYLIST_URL, {
             method: 'POST',
             body: JSON.stringify(playlistMeta),
-            headers: { Authorization: `Bearer ${this.accessToken}` }
+            headers: this.generateHeaders()
         });
         const playlistData: any = await response.json();
         return await { id: playlistData.id, link: playlistData.external_urls.spotify };
@@ -98,12 +109,11 @@ export class SpotifyClient {
 
     async addTracksToPlaylist(playlistId: string, tracks: string[]): Promise<void> {
         await this.checkTokenTime();
-        const response: Response = await fetch(PLAYLIST_URL + `${playlistId}/tracks`, {
+        const response: Response = await fetch(PLAYLIST_URL + `/${playlistId}/tracks`, {
             method: 'POST',
             body: JSON.stringify({ uris: tracks }),
-            headers: { Authorization: `Bearer ${this.accessToken}` }
+            headers: this.generateHeaders()
         });
-        const data = await response.json();
-        await console.log(data);
+        await response.json();
     }
 }

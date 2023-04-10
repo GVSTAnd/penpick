@@ -16,7 +16,8 @@ export type Playlist = {
     link: string;
 };
 
-export type PlaylistOptions = {
+export type PlaylistDetails = {
+    baseBand: string;
     shuffle: boolean;
     topArtist: boolean;
 };
