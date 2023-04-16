@@ -9,7 +9,7 @@ import { PORT } from './config/settings';
 
 const app: Application = express();
 
-app.use(express.static(path.join(__dirname, '../public/css')));
+app.use(express.static(path.join(__dirname, '../public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
