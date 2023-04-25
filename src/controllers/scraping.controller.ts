@@ -1,5 +1,5 @@
-import { getBands } from '../services/scrapping';
-import { BandNotFoundError } from '../services/scrapping/exceptions';
+import { getBands } from '../services/scraping';
+import { BandNotFoundError } from '../services/scraping/exceptions';
 import { Band } from '../types/band-types';
 
 function getBandsDistance(origin: Band, final: Band): Band {
@@ -15,7 +15,6 @@ const getBandsRecomendations = async (inputBand: string): Promise<string[]> => {
         const distanceBands: Band[] = bands.map((band: Band) => getBandsDistance(bands[0], band));
         distanceBands.shift();
         distanceBands.sort((a: Band, b: Band) => (a.distance || 0) - (b.distance || 0));
-        console.log(distanceBands);
 
         return distanceBands.map((band: Band) => band.name);
     } catch (error) {

@@ -20,7 +20,6 @@
 				</div>
 				<button class="text-4xl md:w-1/2 mx-auto p-2 font-semibold font-robot rounded-2xl bg-complement text-white" type='submit'> Generate </button>
 			</form>
-			<p class='error'>{{error.message}}</p>
 		</div>
 	</div>
 
@@ -34,42 +33,57 @@
 </div>
 
 <div class="fixed inset-0 p-4 bg-white w-2/5 m-auto border-complement rounded-2xl border-2 space-y-5 h-fit hidden" id="modal">
-	{{#if spotifyUrl}}
-		<img class="mx-auto w-1/2 md:w-1/4" src="./images/small_logo.png">
-		<p class="font-bold text-3xl text-center font-roboto">Enjoy your playlist!</p>
-		<p class="font-bold text-3xl text-center font-roboto">Thanks for using PENPICK</p>
-		<div class="mx-auto break-words  text-center">
-			<p class="text-center text-complement font-semibold">{{spotifyUrl}}</p>
-		</div>
-	{{else}}
 
-		<img class="mx-auto w-1/3 " src="./images/spinner.gif">
-		<p class="font-roboto text-center font-bold text-3xl"> Please wait...</p>
-
-	{{/if}}
 </div>
+
 <script>
-  const modal = document.getElementById("modal");
-  const body = document.getElementById("body");
-  const form = document.getElementById('form');
-  const spinner = document.getElementById('spinner');
+    const modal = document.getElementById("modal");
+    const body = document.getElementById("body");
+    const form = document.getElementById('form');
 
-  function openModal() {
-      modal.classList.remove("hidden");
-      body.classList.add("brightness-50")
-  }
-
-  function closeModal() {
-      modal.classList.add("hidden");
-      body.classList.remove("brightness-50")
+    function openModal() {
+		modal.innerHTML = `
+		<img class="mx-auto w-1/3 " src="./images/spinner.gif">
+    	<p class="font-roboto text-center font-bold text-3xl"> Please wait...</p>
+		`
+        modal.classList.remove("hidden");
+        body.classList.add("brightness-50")
     }
 
-  body.addEventListener("click",closeModal);
+    function closeModal() {
+        modal.classList.add("hidden");
+        body.classList.remove("brightness-50")
+    }
 
-  form.addEventListener('submit',(event)=>{
-    	openModal()
-	})
-	window.addEventListener('load',(event)=>{
-		if("{{spotifyUrl}}") openModal()
-	})
+    body.addEventListener("click", closeModal);
+
+	function renderSpotifyData(data){
+		modal.innerHTML = data;
+	}
+
+
+    $(document).ready(function() {
+        $('form').submit(function (e) {
+			openModal()
+            $.ajax({
+                type: "POST",
+                url: '/form',
+                data: $('#form').serialize(), 
+                success: function (data) {
+					if (data.error){
+						modal.innerHTML = `<p class="font-roboto text-center font-bold text-3xl text-red-500">${data.error}</p>`
+						return 
+					}
+					modal.innerHTML =`
+                        <img class="mx-auto w-1/2 md:w-1/4" src="./images/small_logo.png">
+                        <p class="font-bold text-3xl text-center font-roboto">Enjoy your playlist!</p>
+                        <p class="font-bold text-3xl text-center font-roboto">Thanks for using PENPICK</p>
+                        <div class="mx-auto break-words  text-center">
+                            <p class="text-center text-complement font-semibold">${data.spotifyUrl}</p>
+                        </div>`;
+                }
+            });
+            e.preventDefault(); 
+        });
+    });
 </script>

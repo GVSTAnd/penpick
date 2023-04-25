@@ -13,7 +13,7 @@ import { Response } from 'node-fetch';
 import fetch from 'node-fetch';
 import { Playlist, PlaylistMetaData, SearchOptions } from '../../types/spotify-types';
 
-export type Headers = {
+type Headers = {
     'Content-Type': string;
     Authorization: string;
 };

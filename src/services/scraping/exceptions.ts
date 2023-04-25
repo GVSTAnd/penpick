@@ -1,7 +1,7 @@
 export class ScrapingError extends Error {}
 export class BandNotFoundError extends ScrapingError {
     constructor(bandName: string) {
-        super(`We dont find ${bandName}, are you sure you wrote it right?`);
+        super(`We could not find '${bandName}', are you sure you wrote it right?`);
     }
 }
 export class EmptyBandDataError extends ScrapingError {
