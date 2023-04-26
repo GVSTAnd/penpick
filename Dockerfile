@@ -33,5 +33,6 @@ FROM node:18-alpine AS production
 WORKDIR /app
 COPY --from=builder ./app/dist ./dist
 COPY package*.json ./
+COPY .env ./
 RUN npm ci --only=production --ignore-scripts
 CMD ["npm", "start"]
