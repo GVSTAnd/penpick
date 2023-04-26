@@ -12,13 +12,14 @@ import {
 import { Response } from 'node-fetch';
 import fetch from 'node-fetch';
 import { Playlist, PlaylistMetaData, SearchOptions } from '../../types/spotify-types';
+import { IStreamingClient } from '../interfaces';
 
 type Headers = {
     'Content-Type': string;
     Authorization: string;
 };
 
-export class SpotifyClient {
+export class SpotifyClient implements IStreamingClient {
     private static instance: SpotifyClient;
     private accessToken = '';
     private tokenTime: Date = new Date();
@@ -73,12 +74,8 @@ export class SpotifyClient {
         return await response.json();
     }
 
-    async searchArtists(query: string, options?: SearchOptions): Promise<any> {
+    private async searchArtists(query: string, options?: SearchOptions): Promise<any> {
         return await this.search(query, ['artist'], options);
-    }
-
-    async searchPlaylists(query: string, options?: SearchOptions): Promise<any> {
-        return await this.search(query, ['playlist'], options);
     }
 
     async getArtistID(artist: string): Promise<string> {

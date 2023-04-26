@@ -1,8 +1,8 @@
-import { SpotifyClient } from '../services/spotify/client';
+import { IStreamingClient } from '../services/interfaces';
 import { SpotifyApiError } from '../services/spotify/exceptions';
 import { Playlist, PlaylistMetaData } from '../types/spotify-types';
 
-const getRecommendedTracks = async (client: SpotifyClient, bands: string[]): Promise<string[]> => {
+const getRecommendedTracks = async (client: IStreamingClient, bands: string[]): Promise<string[]> => {
     const artistsId = await Promise.all(bands.map(band => client.getArtistID(band)));
     const topTracks = await Promise.all(artistsId.map(async artistId => await client.getTopTracks(artistId)));
     return topTracks.reduce((acc, tracks) => acc.concat(tracks), []);
@@ -16,7 +16,7 @@ const generatePlaylistMetaData = (playlistKey: string): PlaylistMetaData => {
     };
 };
 
-const getPlaylistUrl = async (client: SpotifyClient, tracks: string[], playlistKey: string): Promise<string> => {
+const getPlaylistUrl = async (client: IStreamingClient, tracks: string[], playlistKey: string): Promise<string> => {
     try {
         const playlistMeta: PlaylistMetaData = generatePlaylistMetaData(playlistKey);
         const playlist: Playlist = await client.createPlaylist(playlistMeta);

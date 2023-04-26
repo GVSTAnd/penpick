@@ -12,3 +12,6 @@ build: create_env_file
 
 dev:
 	docker run --rm -v '$(shell pwd):/app' --name ${APP_NAME} -p ${PORT}:5000 ${APP_NAME}
+
+test:
+	docker run --rm -v $(shell pwd):/app ${APP_NAME} sh -c 'npm run test'
