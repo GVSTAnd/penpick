@@ -1,39 +1,39 @@
-<div  class="bg-[url('../images/background.png')] bg-dark bg-no-repeat bg-cover w-screen h-screen" id="body">
-	<div class="flex justify-center w-3/5 mx-auto">
-		<div>
+<div class="flex flex-col h-screen">
+	<div  class="bg-[url('../images/background.png')] bg-dark bg-no-repeat bg-cover w-screen h-full" id="body">
+		<div class="flex justify-center w-3/5 mx-auto">
+			<div>
 
-			<img class="mx-auto" src="./images/logo.png">
-			<div class="w-3/4 md:w-1/2 my-7 mx-auto">
-				<p class="text-center text-white font-roboto md-text-3xl text-xl font-medium break-words">Write the name of an artist or band and we will generate a playlist based on your taste using AI</p>
-			</div>
-			<form method='post' action='/form' id='form' class="space-y-5 flex flex-col justify-center mx-auto" >
-				<input class="rounded-md p-2 md:w-3/5 mx-auto" placeholder='Artis/band' type='text' name='band' required />
-				<div class='text-white text-center text-normal text-xl flex justify-center space-x-11'>
-					<div>
-						<input placeholder='' type='checkbox' name='top' id='top' />
-						<label for='top'>10 most related bands</label>
-					</div>
-					<div>
-						<input type='checkbox' name='shuffle' id='shuffle' />
-						<label for='shuffle'>Shuflle the playlist? </label>
-					</div>
+				<img class="mx-auto" src="./images/logo.png">
+				<div class="w-3/4 md:w-1/2 my-7 mx-auto">
+					<p class="text-center text-white font-roboto md-text-3xl text-xl font-medium break-words">Write the name of an artist or band and we will generate a playlist based on your taste using AI</p>
 				</div>
-				<button class="text-4xl md:w-1/2 mx-auto p-2 font-semibold font-robot rounded-2xl bg-complement text-white" type='submit'> Generate </button>
-			</form>
+				<form method='post' action='/form' id='form' class="space-y-5 flex flex-col justify-center mx-auto" >
+					<input class="rounded-md p-2 md:w-3/5 mx-auto" placeholder='Artis/band' type='text' name='band' required />
+					<div class='text-white text-center text-normal text-xl flex justify-center space-x-11'>
+						<div>
+							<input placeholder='' type='checkbox' name='top' id='top' />
+							<label for='top'>10 most related bands</label>
+						</div>
+						<div>
+							<input type='checkbox' name='shuffle' id='shuffle' />
+							<label for='shuffle'>Shuflle the playlist? </label>
+						</div>
+					</div>
+					<button class="text-4xl md:w-1/2 mx-auto p-2 font-semibold font-robot rounded-2xl bg-complement text-white" type='submit'> Generate </button>
+				</form>
+			</div>
 		</div>
+	<div class="fixed inset-0 p-4 bg-white w-2/5 m-auto border-complement rounded-2xl border-2 space-y-5 h-fit hidden" id="modal">
+
 	</div>
-
-	<div class="bg-dark flex justify-center fixed inset-x-0 bottom-0">
-		<a href="https://www.linkedin.com/in/isaac152/"><img class="w-1/2 md-w-2/3 p-1 " src="https://img.icons8.com/ios-filled/150/FF6347/github.png"/></a>
-			
-		<a href="https://github.com/isaac152"><img  class="w-1/2 md-w-2/3 p-1 " src="https://img.icons8.com/ios-filled/150/FF6347/linkedin.png" /></a>
-
-		<a href="https://twitter.com/isaac152"><img  class="w-1/2 md-w-2/3 p-1 " src="https://img.icons8.com/ios-filled/150/FF6347/twitter.png" /></a>
 	</div>
-</div>
-
-<div class="fixed inset-0 p-4 bg-white w-2/5 m-auto border-complement rounded-2xl border-2 space-y-5 h-fit hidden" id="modal">
-
+	<div class="bg-dark w-full mx-auto flex justify-center">
+	<div class="flex justify-around">
+		<a href="https://github.com/isaac152" class="w-1/5"><img src="https://img.icons8.com/ios-filled/150/FF6347/github.png"/></a> 
+		<a href="https://www.linkedin.com/in/isaac152" class="w-1/5"><img src="https://img.icons8.com/ios-filled/150/FF6347/linkedin.png" /></a>     
+		<a href="https://twitter.com/isaac152" class="w-1/5"><img src="https://img.icons8.com/ios-filled/150/FF6347/twitter.png" /></a>
+	</div>
+	</div>
 </div>
 
 <script>
@@ -79,7 +79,7 @@
                         <p class="font-bold text-3xl text-center font-roboto">Enjoy your playlist!</p>
                         <p class="font-bold text-3xl text-center font-roboto">Thanks for using PENPICK</p>
                         <div class="mx-auto break-words  text-center">
-                            <p class="text-center text-complement font-semibold">${data.spotifyUrl}</p>
+                            <a class="text-center text-complement font-semibold" href="${data.spotifyUrl}">${data.spotifyUrl}</a>
                         </div>`;
                 }
             });
