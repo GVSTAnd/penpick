@@ -6,7 +6,7 @@
 
 Penpick is an app that creates a playlist on Spotify based on IA recomendations of potencial artists/bands you could like.
 
-Link: 
+Link: http://penpick.xyz/
 
 ## How to use
 
