@@ -36,4 +36,4 @@ COPY ./public/ ./public/
 COPY ./templates/ ./templates/
 COPY .env ./
 RUN npm ci --only=production --ignore-scripts
-CMD ["npm", "start"]
+CMD start
